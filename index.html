@@ -22,7 +22,7 @@
       <h3>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h3>
 
-<p>Obtain the plugin binary package from the Liferay Marketplace, or build from source. Deploy using the Liferay control panel Apps page in the usual way.</p>
+<p>Obtain the plugin binary package from the Liferay Marketplace and deploy using the Liferay control panel Apps page in the usual way.</p>
 
 <p>If you have pre-existing content in your portal, generate tiny URLs for them by restarting Liferay with the following entry in portal-ext.properties:</p>
 
@@ -30,16 +30,25 @@
 <p>tinyurl.verify.on.startup=true</p>
 </blockquote>
 
-<p>The operation may take some time to complete, depending on how much content you have on your portal.</p>
-
-<p>This portal property can also be used as part of portal maintenance to clean up the tiny URL database table, deleting orphaned entries and creating missing entries.</p>
+<p>The operation may take some time to complete, depending on how much content you have on your portal. The portal will not come up until it has finished.</p>
 
 <p>Now remove the line and restart Liferay again. From this point on, tiny URLs will be automatically generated when content is created or edited.</p>
+
+<p>This portal property can also be used as part of future maintenance to clean up the tiny URL database table, deleting orphaned entries and creating missing entries.</p>
 
 <h3>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h3>
 
-<p>The plugin contains a tool which retrieves the tiny URL given the friendly URL. Most commonly, you would display the tiny URL to users by placing a web content article based on a template containing a code snippet such as the following example in Velocity:</p>
+<p>A typical user scenario goes like this:</p>
+
+<ul>
+<li>A user navigates to a page, views a web content article, messageboards message, etc.</li>
+<li>On the page we display the tiny URL corresponding to what he is viewing.</li>
+<li>The user sends the tiny URL to his friend.</li>
+<li>The friend enters the tiny URL in his browser and sees exactly what the first user is seeing.</li>
+</ul>
+
+<p>To display the tiny URL to users, a tool included in the plugin can be used. Most commonly, you would place a special web content article on the page which has no content but uses a template containing a code snippet such as the following example in Velocity:</p>
 
 <blockquote>
 <p>#set ($tinyURLTools = $utilLocator.findUtil('tinyurl-portlet', 'org.hopeconsultants.portlet.tinyurl.util.TinyURLTools'))</p>
@@ -55,7 +64,9 @@
 
 </blockquote>
 
-<p>Similar code can be used a JSP page. Note that the TinyURLTools class expects the flattened ThemeDisplay object available in a web content template:</p>
+<p>The resulting Tiny URLs have the format http(s):///t/xyzabc.</p>
+
+<p>Similar code can be used a JSP page. Note that the TinyURLTools class expects the flattened ThemeDisplay object available in a web content template, so we have to construct one:</p>
 
 <blockquote>
 <p>Object tinyURLToolsBean = PortletBeanLocatorUtil.locate("tinyurl-portlet", "org.hopeconsultants.portlet.tinyurl.util.TinyURLTools");</p>
@@ -84,7 +95,7 @@ flatThemeDisplay.put("url-portal", themeDisplay.getURLPortal());</p>
 <li>wiki page</li>
 </ul>
 
-<p>Note: not all the weird and wonderful formats of friendly URL are supported, only those which the portal provides for the FRIENDLY_URL request attribute.</p>
+<p>Note: not all the weird and wonderful formats of friendly URL are supported, only those which the portal provides in the FRIENDLY_URL request attribute.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/Hope-Consultants-International/tinyurl-portlet">Tiny URLs</a> is maintained by <a href="https://github.com/Hope-Consultants-International">Hope-Consultants-International</a>.</span>
