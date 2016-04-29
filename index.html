@@ -24,31 +24,29 @@
 
 <p>Obtain the plugin binary package from the Liferay Marketplace and deploy using the Liferay control panel Apps page in the usual way.</p>
 
-<p>If you have pre-existing content in your portal, generate tiny URLs for them by restarting Liferay with the following entry in portal-ext.properties:</p>
+<p>If you have pre-existing content in your portal, tiny URLs for them will be automatically generated during portal startup. This operation may take some time to complete, depending on how much content you have on your portal. The portal will not come up until it has finished.</p>
 
-<blockquote>
-<p>tinyurl.verify.on.startup=true</p>
-</blockquote>
+<p>From this point on, tiny URLs will be automatically generated when content is created or edited.</p>
 
-<p>The operation may take some time to complete, depending on how much content you have on your portal. The portal will not come up until it has finished.</p>
-
-<p>Now remove the line and restart Liferay again. From this point on, tiny URLs will be automatically generated when content is created or edited.</p>
-
-<p>This portal property can also be used as part of future maintenance to clean up the tiny URL database table, deleting orphaned entries and creating missing entries.</p>
+<p>The resulting Tiny URLs have the format portal_url/t/xyzabc.</p>
 
 <h3>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h3>
 
-<p>A typical user scenario goes like this:</p>
+<p>A typical scenario goes like this:</p>
 
 <ul>
-<li>A user navigates to a page, views a web content article, messageboards message, etc.</li>
+<li>A user navigates to a page, views a web content article, a messageboards message, etc.</li>
 <li>On the page we display the tiny URL corresponding to what he is viewing.</li>
 <li>The user sends the tiny URL to his friend.</li>
 <li>The friend enters the tiny URL in his browser and sees exactly what the first user is seeing.</li>
 </ul>
 
-<p>To display the tiny URL to users, a tool included in the plugin can be used. Most commonly, you would place a special web content article on the page which has no content but uses a template containing a code snippet such as the following example in Velocity:</p>
+<p>To display the tiny URL to users, a tool included in the plugin can be used. Most commonly, you would place a special web content article on the page.</p>
+
+<p>Step 1: create a web content structure. It does not need to have any fields.</p>
+
+<p>Step 2: create a template for the structure, such as the following Velocity code snippet:</p>
 
 <blockquote>
 <p>#set ($tinyURLTools = $utilLocator.findUtil('tinyurl-portlet', 'org.hopeconsultants.portlet.tinyurl.util.TinyURLTools'))</p>
@@ -58,10 +56,12 @@
 
 <p>#set ($tiny_url = $tinyURLTools.getTinyURL($!friendly_url, $theme_display))</p>
 
-<p>&lt;div&gt; &lt;input readonly="true" value="$!tiny_url" /&gt; &lt;/div&gt;</p>
+<p>&lt;div&gt; &lt;label&gt;Tiny URL for this article&lt;/label&gt; &lt;input onclick="Liferay.Util.selectAndCopy(this);" readonly="true" value="$!tiny_url" /&gt; &lt;/div&gt;</p>
 </blockquote>
 
-<p>The resulting Tiny URLs have the format portal_url/t/xyzabc.</p>
+<p>Step 3: create a web content article using the template. It does not need to have any data.</p>
+
+<p>Step 4: use a web content display to show the article on the pages you wish.</p>
 
 <p>Similar code can be used a JSP page. Note that the TinyURLTools class expects the flattened ThemeDisplay object available in a web content template, so we have to construct one:</p>
 
@@ -77,6 +77,15 @@ flatThemeDisplay.put("plid", plid);
 flatThemeDisplay.put("url-portal", themeDisplay.getURLPortal());</p>
 
 <p>String tinyURL = (String)getTinyURLMethodKey.getMethod().invoke(tinyURLToolsBean, DLUtil.getPreviewURL(fileEntry, null, null, StringPool.BLANK, false, true), flatThemeDisplay);</p>
+</blockquote>
+
+<h3>
+<a id="maintenance" class="anchor" href="#maintenance" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Maintenance</h3>
+
+<p>To clean up the tiny URL database table, deleting orphaned entries and creating missing entries, add the following line to portal-ext.properties and restart the portal.</p>
+
+<blockquote>
+<p>tinyurl.verify.on.startup=true</p>
 </blockquote>
 
 <h3>
