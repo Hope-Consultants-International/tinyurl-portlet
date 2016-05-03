@@ -44,9 +44,9 @@
 
 <p>To display the tiny URL to users, a tool included in the plugin can be used. Most commonly, you would place a special web content article on the page.</p>
 
-<p>Step 1: create a web content structure. It does not need to have any fields.</p>
+<p>Step 1: Create a web content structure. It does not need to have any fields.</p>
 
-<p>Step 2: create a template for the structure, such as the following Velocity code snippet:</p>
+<p>Step 2: Create a template for the structure, such as the following Velocity code snippet:</p>
 
 <blockquote>
 <p>#set ($tinyURLTools = $utilLocator.findUtil('tinyurl-portlet', 'org.hopeconsultants.portlet.tinyurl.util.TinyURLTools'))</p>
@@ -59,9 +59,9 @@
 <p>&lt;div&gt; &lt;label&gt;Tiny URL for this article&lt;/label&gt; &lt;input onclick="Liferay.Util.selectAndCopy(this);" readonly="true" value="$!tiny_url" /&gt; &lt;/div&gt;</p>
 </blockquote>
 
-<p>Step 3: create a web content article using the template. It does not need to have any data.</p>
+<p>Step 3: Create a web content article using the template. It does not need to have any data.</p>
 
-<p>Step 4: use a web content display to show the article on the pages you wish.</p>
+<p>Step 4: Use a web content display to show the article on the pages you wish.</p>
 
 <p>Similar code can be used a JSP page. Note that the TinyURLTools class expects the flattened ThemeDisplay object available in a web content template, so we have to construct one:</p>
 
@@ -79,6 +79,17 @@ flatThemeDisplay.put("url-portal", themeDisplay.getURLPortal());</p>
 <p>String tinyURL = (String)getTinyURLMethodKey.getMethod().invoke(tinyURLToolsBean, DLUtil.getPreviewURL(fileEntry, null, null, StringPool.BLANK, false, true), flatThemeDisplay);</p>
 </blockquote>
 
+<h4>
+<a id="usage-example" class="anchor" href="#usage-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage Example</h4>
+
+<p>On a page, place the special web content display and an asset publisher with default settings (i.e. dynamic mode, showing all your assets as abstracts).    </p>
+
+<p>When first visiting the page, the tiny URL corresponds to the page. When a user enters the tiny URL into his browser, he will be taken to the same page with the asset publisher showing the abstracts.</p>
+
+<p>If you now click on an asset to show its full content, the tiny URL changes to correspond to that asset.
+ When a user enters this tiny URL into his browser, he will be taken to the same page with the asset pub
+lisher showing that asset as full content.</p>
+
 <h3>
 <a id="maintenance" class="anchor" href="#maintenance" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Maintenance</h3>
 
@@ -89,19 +100,24 @@ flatThemeDisplay.put("url-portal", themeDisplay.getURLPortal());</p>
 </blockquote>
 
 <h3>
-<a id="supported-content-types" class="anchor" href="#supported-content-types" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supported content types</h3>
+<a id="supported-content-types-and-portlets" class="anchor" href="#supported-content-types-and-portlets" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supported content types and portlets</h3>
 
 <ul>
 <li>page</li>
-<li>web content article</li>
-<li>blogs entry</li>
-<li>documents and media file</li>
-<li>messageboard category</li>
-<li>messageboard message</li>
-<li>wiki page</li>
+<li>web content article - web content display, asset publisher</li>
+<li>blogs entry - blogs portlet, asset publisher</li>
+<li>documents and media file - asset publisher</li>
+<li>messageboard category and message - messageboards portlet, asset publisher</li>
+<li>wiki page - wiki portlet, asset publisher</li>
 </ul>
 
-<p>Note: not all the weird and wonderful formats of friendly URL are supported, only those which the portal provides in the FRIENDLY_URL request attribute.</p>
+<p>Notes:</p>
+
+<ol>
+<li>Not all the weird and wonderful formats of friendly URL are supported, only those which the portal provides in the FRIENDLY_URL request attribute.</li>
+</ol>
+
+<p>2: At present, Documents and Media and Documents and Media Display portlets are not supported. Use an Asset Publisher portlet instead.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/Hope-Consultants-International/tinyurl-portlet">Tiny URLs</a> is maintained by <a href="https://github.com/Hope-Consultants-International">Hope-Consultants-International</a>.</span>
