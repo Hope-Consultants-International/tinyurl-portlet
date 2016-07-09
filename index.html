@@ -30,6 +30,12 @@
 
 <p>The resulting Tiny URLs have the format portal_url/t/xyzabc.</p>
 
+<p>Optional portal property: setting </p>
+
+<p>tinyurl.secure.decode</p>
+
+<p>controls whether the user must be logged in before an attempt is made to display the resource corresponding to a tiny URL. (If not logged in, he will be prompted to log in.) The default is true, i.e. the user must be logged in. If set to false, the user's browser URL bar will show the decoded friendly URL of the resource corresponding to the tiny URL even if it is on a private page. This can result in undesired disclosure of privileged information contained in the friendly URL.</p>
+
 <h3>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h3>
 
