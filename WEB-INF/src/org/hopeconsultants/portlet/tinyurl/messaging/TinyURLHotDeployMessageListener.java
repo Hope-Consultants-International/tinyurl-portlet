@@ -13,6 +13,10 @@ import org.hopeconsultants.portlet.tinyurl.util.TinyURLUtils;
 
 public class TinyURLHotDeployMessageListener extends HotDeployMessageListener {
 
+	public TinyURLHotDeployMessageListener(String... servletContextNames) {
+		super(servletContextNames);
+	}
+
 	@Override
 	protected void onDeploy(Message message) throws Exception {
 

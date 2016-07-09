@@ -78,26 +78,28 @@ public class TinyURLFilter extends BaseFilter {
 		// attacker who scans all possible tiny URLs.
 		// TODO: implement auto-login.
 
-		boolean signedIn = false;
+		if (PropsValues.TINYURL_SECURE_DECODE) {
+			boolean signedIn = false;
 
-		try {
-			User user = PortalUtil.initUser(request);
-			signedIn = !user.isDefaultUser();
-		}
-		catch (NoSuchUserException nsue) {
-		}
+			try {
+				User user = PortalUtil.initUser(request);
+				signedIn = !user.isDefaultUser();
+			}
+			catch (NoSuchUserException nsue) {
+			}
 
-		if (!signedIn) {
-			// The ServletContext from the FilterConfig is the Tiny URL
-			// portlet's context. Use the root context from the request instead.
+			if (!signedIn) {
+				// The ServletContext from the FilterConfig is the Tiny URL
+				// portlet's context. Use the root context from the request instead.
 
-			String loginURI = "/c/portal/login?redirect=" +
-				PortalUtil.escapeRedirect(contextPath + requestURI);
+				String loginURI = "/c/portal/login?redirect=" +
+					PortalUtil.escapeRedirect(contextPath + requestURI);
 
-			RequestDispatcher requestDispatcher =
-				request.getServletContext().getRequestDispatcher(loginURI);
+				RequestDispatcher requestDispatcher =
+					request.getServletContext().getRequestDispatcher(loginURI);
 
-			requestDispatcher.forward(request, response);
+				requestDispatcher.forward(request, response);
+			}
 		}
 
 		String[] parts = StringUtil.split(requestURI, StringPool.SLASH);

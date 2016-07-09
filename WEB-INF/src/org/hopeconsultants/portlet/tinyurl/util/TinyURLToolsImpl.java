@@ -12,15 +12,18 @@ import com.liferay.portal.kernel.portlet.FriendlyURLMapper;
 import com.liferay.portal.kernel.portlet.FriendlyURLMapperThreadLocal;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.LayoutSet;
+import com.liferay.portal.model.LayoutTypePortlet;
 import com.liferay.portal.model.Portlet;
+import com.liferay.portal.model.PortletConstants;
+import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.PortletLocalServiceUtil;
 import com.liferay.portal.util.Portal;
@@ -59,6 +62,7 @@ public class TinyURLToolsImpl implements TinyURLTools {
 		}
 
 		long groupId = GetterUtil.getLong(themeDisplay.get("scope-group-id"));
+		long plid = GetterUtil.getLong(themeDisplay.get("plid"));
 
 		TinyURL tinyURL = null;
 
@@ -79,8 +83,6 @@ public class TinyURLToolsImpl implements TinyURLTools {
 		}
 		else if (pos == -1) {
 			// Layout friendly URL
-
-			long plid = GetterUtil.getLong(themeDisplay.get("plid"));
 
 			if (plid == 0) {
 				_log.warn("Layout friendly URL but plid is zero.");
@@ -106,17 +108,18 @@ public class TinyURLToolsImpl implements TinyURLTools {
 
 			if (article == null) {
 				_log.warn("No article found for friendly URL " + friendlyURL);
+
+				return StringPool.BLANK;
 			}
-			else {
-				tinyURL = TinyURLLocalServiceUtil.fetchByC_P(
-					TinyURLConstants.CLASSNAMEID_ARTICLE,
-					article.getResourcePrimKey());
-			}
+
+			tinyURL = TinyURLLocalServiceUtil.fetchByC_P(
+				TinyURLConstants.CLASSNAMEID_ARTICLE,
+				article.getResourcePrimKey());
 		}
 		else {
 			// Portlet friendly URL route
 
-			long[] idPair = _getIdFromFriendlyURL(friendlyURL, groupId);
+			long[] idPair = _getIdFromFriendlyURL(friendlyURL, groupId, plid);
 
 			long classNameId = idPair[0];
 			long classPK = idPair[1];
@@ -127,7 +130,7 @@ public class TinyURLToolsImpl implements TinyURLTools {
 
 				return StringPool.BLANK;
 			}
-			else if (idPair[1] == 0) {
+			else if (classPK == 0) {
 				_log.warn("No classPK found for friendly URL " + friendlyURL);
 
 				return StringPool.BLANK;
@@ -150,7 +153,8 @@ public class TinyURLToolsImpl implements TinyURLTools {
 	// but does not need to build up the query string; instead get the assetId
 	// from the friendly URL route parameters.
 
-	private static long[] _getIdFromFriendlyURL(String url, long groupId)
+	private static long[] _getIdFromFriendlyURL(
+			String url, long groupId, long plid)
 		throws SystemException {
 
 		long[] idPair = new long[]{0, 0};
@@ -191,12 +195,23 @@ public class TinyURLToolsImpl implements TinyURLTools {
 				String portletId = friendlyURLMapper.getPortletId();
 				String namespace = PortalUtil.getPortletNamespace(portletId);
 
+				// The scopeGroupId from themeDisplay won't be correct because
+				// our context is some web content display, not the target
+				// portlet instance.
+
+				try {
+					groupId = _getScopeGroupId(plid, portletId);
+				}
+				catch (PortalException pe) {
+					_log.warn("Could not find portlets in layout " + plid);
+				}
+
 				// Switch statement cannot use String, so use if...else.
 
 				if (portletId.equals(PortletKeys.ASSET_PUBLISHER)) {
 					idPair = _getAssetPubIds(namespace, groupId, params);
 				}
-				if (portletId.equals(PortletKeys.BLOGS)) {
+				else if (portletId.equals(PortletKeys.BLOGS)) {
 					idPair = _getBlogsIds(namespace, groupId, params);
 				}
 				else if (portletId.equals(PortletKeys.MESSAGE_BOARDS)) {
@@ -268,7 +283,7 @@ public class TinyURLToolsImpl implements TinyURLTools {
 				try {
 					AssetRenderer assetRenderer =
 						assetRendererFactory.getAssetRenderer(
-							groupId, urlTitle);
+							assetGroupId, urlTitle);
 
 				classNameId = assetRendererFactory.getClassNameId();
 				classPK = assetRenderer.getClassPK();
@@ -316,7 +331,7 @@ public class TinyURLToolsImpl implements TinyURLTools {
 			url.substring(pos + "/documents/".length()), StringPool.SLASH);
 
 		if (parts.length < 3) {
-			_log.warn("Malformed ocument friendly URL " + url);
+			_log.warn("Malformed document friendly URL " + url);
 
 			return 0;
 		}
@@ -411,6 +426,30 @@ public class TinyURLToolsImpl implements TinyURLTools {
 
 		return PortalUtil.getPortalURL(serverName, port, secure) +
 			PortalUtil.getPathContext();
+	}
+
+	private static long _getScopeGroupId(long plid, String portletId)
+		throws PortalException, SystemException {
+
+		Layout layout = LayoutLocalServiceUtil.getLayout(plid);
+
+		long scopeGroupId = layout.getGroupId();
+
+		LayoutTypePortlet layoutTypePortlet =
+			(LayoutTypePortlet)layout.getLayoutType();
+
+		for (String id : layoutTypePortlet.getPortletIds()) {
+			if (PortletConstants.getRootPortletId(id).equals(portletId)) {
+				// There's an instance of the specified portlet on the page.
+				// If it's scopeable, get its configured scope group ID.
+
+				scopeGroupId = PortalUtil.getScopeGroupId(layout, id);
+
+				break;
+			}
+		}
+
+		return scopeGroupId;
 	}
 
 	private static long[] _getWikiPageIds(
