@@ -10,7 +10,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
-import com.liferay.portal.kernel.repository.model.FileVersion;
 import com.liferay.portal.kernel.servlet.BaseFilter;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -22,7 +21,6 @@ import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.LayoutSet;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
-import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.portlet.documentlibrary.service.DLAppLocalServiceUtil;
 import com.liferay.portlet.documentlibrary.util.DLUtil;
@@ -336,32 +334,38 @@ public class TinyURLFilter extends BaseFilter {
 		throws PortalException, SystemException {
 
 		String layoutUuid = article.getLayoutUuid();
+		long groupId = article.getGroupId();
 
 		if (Validator.isNotNull(layoutUuid)) {
-			return LayoutLocalServiceUtil.getLayoutByUuidAndCompanyId(
-				layoutUuid, article.getCompanyId());
+		    Layout layout = LayoutLocalServiceUtil.fetchLayoutByUuidAndGroupId(
+		        layoutUuid, groupId, true);
+
+		    if (layout != null) {
+		        return layout;
+		    }
+
+			return LayoutLocalServiceUtil.getLayoutByUuidAndGroupId(
+			    layoutUuid, groupId, false);
 		}
 
 		List<Long> privateLayoutIds =
 			JournalContentSearchLocalServiceUtil.getLayoutIds(
-				article.getGroupId(), true, article.getArticleId());
+			    groupId, true, article.getArticleId());
 
 		if (!privateLayoutIds.isEmpty()) {
 			long layoutId = privateLayoutIds.get(0);
 
-			return LayoutLocalServiceUtil.getLayout(
-				article.getGroupId(), true, layoutId);
+			return LayoutLocalServiceUtil.getLayout(groupId, true, layoutId);
 		}
 
 		List<Long> publicLayoutIds =
 			JournalContentSearchLocalServiceUtil.getLayoutIds(
-				article.getGroupId(), true, article.getArticleId());
+			    groupId, true, article.getArticleId());
 
 		if (!publicLayoutIds.isEmpty()) {
 			long layoutId = privateLayoutIds.get(0);
 
-			return LayoutLocalServiceUtil.getLayout(
-				article.getGroupId(), false, layoutId);
+			return LayoutLocalServiceUtil.getLayout(groupId, false, layoutId);
 		}
 
 		return null;
