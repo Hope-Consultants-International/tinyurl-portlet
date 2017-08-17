@@ -124,7 +124,7 @@ public class TinyURLFilter extends BaseFilter {
 				_log.debug("Tiny URL " + requestURI + " does not exist.");
 			}
 
-			processFilter(getClass(), request, response, filterChain);
+			processFilter(TinyURLFilter.class, request, response, filterChain);
 
 			return;
 		}
@@ -134,7 +134,7 @@ public class TinyURLFilter extends BaseFilter {
 				_log.debug("Tiny URL " + requestURI + " is not visible.");
 			}
 
-			processFilter(getClass(), request, response, filterChain);
+			processFilter(TinyURLFilter.class, request, response, filterChain);
 
 			return;
 		}
@@ -151,7 +151,8 @@ public class TinyURLFilter extends BaseFilter {
 			catch (PortalException pe) {
 				_log.warn("No document for tiny URL " + requestURI);
 
-				processFilter(getClass(), request, response, filterChain);
+				processFilter(
+				    TinyURLFilter.class, request, response, filterChain);
 
 				return;
 			}
@@ -409,6 +410,6 @@ public class TinyURLFilter extends BaseFilter {
 		return _log;
 	}
 
-	private Log _log = LogFactoryUtil.getLog(getClass());
+	private static Log _log = LogFactoryUtil.getLog(TinyURLFilter.class);
 
 }
