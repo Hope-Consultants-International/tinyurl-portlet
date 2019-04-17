@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-	<bean id="org.hopeconsultants.portlet.tinyurl.service.TinyURLLocalService" class="org.hopeconsultants.portlet.tinyurl.service.impl.TinyURLLocalServiceImpl" />
-	<bean id="org.hopeconsultants.portlet.tinyurl.service.persistence.TinyURLPersistence" class="org.hopeconsultants.portlet.tinyurl.service.persistence.TinyURLPersistenceImpl" parent="basePersistence" />
-	<bean id="org.hopeconsultants.portlet.tinyurl.util.TinyURLTools" class="org.hopeconsultants.portlet.tinyurl.util.TinyURLToolsImpl" />
-</beans>
