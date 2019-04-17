@@ -30,11 +30,15 @@
 
 <p>The resulting Tiny URLs have the format portal_url/t/xyzabc.</p>
 
-<p>Optional portal property: setting </p>
+<p>The following optional setting controls whether the user must be logged in before an attempt is made to display the resource corresponding to a tiny URL. (If not logged in, he will be prompted to log in.) The default is true, i.e. the user must be logged in. If set to false, the user's browser URL bar will show the decoded friendly URL of the resource corresponding to the tiny URL even if it is on a private page. This can result in undesired disclosure of privileged information contained in the friendly URL.</p>
 
-<p>tinyurl.secure.decode</p>
+<p>In Liferay 6, it can be set in portal-ext.properties:</p>
 
-<p>controls whether the user must be logged in before an attempt is made to display the resource corresponding to a tiny URL. (If not logged in, he will be prompted to log in.) The default is true, i.e. the user must be logged in. If set to false, the user's browser URL bar will show the decoded friendly URL of the resource corresponding to the tiny URL even if it is on a private page. This can result in undesired disclosure of privileged information contained in the friendly URL.</p>
+<blockquote>
+<p>tinyurl.secure.decode=true</p>
+</blockquote>
+
+<p>In Liferay 7, this setting is available in the System Settings control panel page.</p>
 
 <h3>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h3>
@@ -54,6 +58,8 @@
 
 <p>Step 2: Create a template for the structure, such as the following Velocity code snippet:</p>
 
+<p>For Liferay version 6 (Velocity example):</p>
+
 <blockquote>
 <p>#set ($tinyURLTools = $utilLocator.findUtil('tinyurl-portlet', 'org.hopeconsultants.portlet.tinyurl.util.TinyURLTools'))</p>
 
@@ -65,11 +71,18 @@
 <p>&lt;div&gt; &lt;label&gt;Tiny URL for this article&lt;/label&gt; &lt;input onclick="Liferay.Util.selectAndCopy(this);" readonly="true" value="$!tiny_url" /&gt; &lt;/div&gt;</p>
 </blockquote>
 
+<p>For Liferay version 7 (Freemarker example):</p>
+
+<blockquote>
+<p>&lt;#assign tiny_url = tinyURLTools.getTinyURL(friendly_url, themeDisplay)&gt;</p>
+<p>&lt;div&gt; &lt;label&gt;Tiny URL for this article&lt;/label&gt; &lt;input onclick="Liferay.Util.selectAndCopy(this);" readonly="true" value="${tiny_url}" /&gt; &lt;/div></p>
+</blockquote>
+
 <p>Step 3: Create a web content article using the template. It does not need to have any data.</p>
 
 <p>Step 4: Use a web content display to show the article on the pages you wish.</p>
 
-<p>Similar code can be used a JSP page. Note that the TinyURLTools class expects the flattened ThemeDisplay object available in a web content template, so we have to construct one:</p>
+<p>Similar code can be used a JSP page. Note that in Liferay version 6, the TinyURLTools class expects the flattened ThemeDisplay object available in a web content template, so we have to construct one:</p>
 
 <blockquote>
 <p>Object tinyURLToolsBean = PortletBeanLocatorUtil.locate("tinyurl-portlet", "org.hopeconsultants.portlet.tinyurl.util.TinyURLTools");</p>
@@ -85,6 +98,17 @@ flatThemeDisplay.put("url-portal", themeDisplay.getURLPortal());</p>
 <p>String tinyURL = (String)getTinyURLMethodKey.getMethod().invoke(tinyURLToolsBean, DLUtil.getPreviewURL(fileEntry, null, null, StringPool.BLANK, false, true), flatThemeDisplay);</p>
 </blockquote>
 
+<p>In Liferay version 7, a Liferay Workspace module project just has to declare a dependency on the package org.hopeconsultants.tinyurl.tools and use code such as:</p>
+
+<blockquote>
+<p>String friendlyURL = request.getAttribute(_tinyURLTools.FRIENDLY_URL);</p>
+<p>String tinyURL = _tinyURLTools.getTinyURL(friendlyURL, themeDisplay);</p>
+
+<p>@Reference</p>
+<p>private TinyURLTools _tinyURLTools;</p>
+<p>// Or outside of a component class, obtain using the service tracker API.</p>
+</blockquote>
+
 <h4>
 <a id="usage-example" class="anchor" href="#usage-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage Example</h4>
 
@@ -97,11 +121,13 @@ flatThemeDisplay.put("url-portal", themeDisplay.getURLPortal());</p>
 <h3>
 <a id="maintenance" class="anchor" href="#maintenance" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Maintenance</h3>
 
-<p>To clean up the tiny URL database table, deleting orphaned entries and creating missing entries, add the following line to portal-ext.properties and restart the portal.</p>
+<p>To clean up the tiny URL database table, deleting orphaned entries and creating missing entries, in Liferay 6, add the following line to portal-ext.properties and restart the portal.</p>
 
 <blockquote>
 <p>tinyurl.verify.on.startup=true</p>
 </blockquote>
+
+<p>In Liferay 7, this setting is available in the System Settings control panel page.</p>
 
 <h3>
 <a id="supported-content-types-and-portlets" class="anchor" href="#supported-content-types-and-portlets" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supported content types and portlets</h3>
@@ -117,11 +143,9 @@ flatThemeDisplay.put("url-portal", themeDisplay.getURLPortal());</p>
 
 <p>Notes:</p>
 
-<p>1: Not all the weird and wonderful formats of friendly URL are supported, only those which the portal provides in the FRIENDLY_URL request attribute.</p>
+<p>1: At present, Documents and Media and Documents and Media Display portlets are not supported. Use an Asset Publisher portlet instead.</p>
 
-<p>2: At present, Documents and Media and Documents and Media Display portlets are not supported. Use an Asset Publisher portlet instead.</p>
-
-<p>3: At present only site scope is supported.</p>
+<p>2: At present only site scope is supported.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/Hope-Consultants-International/tinyurl-portlet">Tiny URLs</a> is maintained by <a href="https://github.com/Hope-Consultants-International">Hope-Consultants-International</a>.</span>
