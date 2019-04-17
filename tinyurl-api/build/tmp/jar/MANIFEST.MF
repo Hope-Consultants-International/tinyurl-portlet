@@ -1,0 +1,43 @@
+Manifest-Version: 1.0
+Bundle-Copyright: Hope Consultants International
+Bundle-Description: Provides tiny URLs for assets and pages
+Bundle-ManifestVersion: 2
+Bundle-Name: TinyURL API
+Bundle-SymbolicName: org.hopeconsultants.tinyurl.api
+Bundle-Vendor: Hope Consultants International
+Bundle-Version: 2.1.0
+Created-By: 1.8.0_202 (Oracle Corporation)
+Export-Package: org.hopeconsultants.tinyurl.exception;uses:="com.lifer
+ ay.portal.kernel.exception";version="2.1.0",org.hopeconsultants.tinyu
+ rl.model;uses:="com.liferay.expando.kernel.model,com.liferay.portal.k
+ ernel.annotation,com.liferay.portal.kernel.bean,com.liferay.portal.ke
+ rnel.model,com.liferay.portal.kernel.service,com.liferay.portal.kerne
+ l.util";version="2.1.0",org.hopeconsultants.tinyurl.service;uses:="co
+ m.liferay.portal.kernel.dao.orm,com.liferay.portal.kernel.exception,c
+ om.liferay.portal.kernel.model,com.liferay.portal.kernel.search,com.l
+ iferay.portal.kernel.service,com.liferay.portal.kernel.transaction,co
+ m.liferay.portal.kernel.util,org.hopeconsultants.tinyurl.exception,or
+ g.hopeconsultants.tinyurl.model";version="2.1.0",org.hopeconsultants.
+ tinyurl.service.persistence;uses:="com.liferay.portal.kernel.dao.orm,
+ com.liferay.portal.kernel.service,com.liferay.portal.kernel.service.p
+ ersistence,com.liferay.portal.kernel.util,org.hopeconsultants.tinyurl
+ .exception,org.hopeconsultants.tinyurl.model";version="2.1.0",org.hop
+ econsultants.tinyurl.tools;uses:="com.liferay.portal.kernel.exception
+ ,com.liferay.portal.kernel.theme";version="2.1.0"
+Import-Package: com.liferay.expando.kernel.model;version="[1.1,2)",com
+ .liferay.osgi.util;version="[2.1,3)",com.liferay.portal.kernel.annota
+ tion;version="[6.3,7)",com.liferay.portal.kernel.bean;version="[7.1,8
+ )",com.liferay.portal.kernel.dao.orm;version="[7.3,8)",com.liferay.po
+ rtal.kernel.exception;version="[7.4,8)",com.liferay.portal.kernel.mod
+ el;version="[2.0,2.1)",com.liferay.portal.kernel.search;version="[7.7
+ ,8)",com.liferay.portal.kernel.service;version="[1.40,2)",com.liferay
+ .portal.kernel.service.persistence;version="[1.22,2)",com.liferay.por
+ tal.kernel.theme;version="[1.7,2)",com.liferay.portal.kernel.transact
+ ion;version="[7.1,8)",com.liferay.portal.kernel.util;version="[8.13,9
+ )",org.hopeconsultants.tinyurl.exception,org.hopeconsultants.tinyurl.
+ model,org.osgi.util.tracker;version="[1.5,2)"
+Javac-Debug: on
+Javac-Deprecation: off
+Javac-Encoding: UTF-8
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
+Tool: Bnd-3.5.0.201709291849

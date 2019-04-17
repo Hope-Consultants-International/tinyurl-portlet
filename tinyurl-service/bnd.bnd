@@ -1,0 +1,9 @@
+Bundle-Name: TinyURL Service
+Bundle-SymbolicName: org.hopeconsultants.tinyurl.service
+Bundle-Version: 2.1.0
+Bundle-Description: Provides tiny URLs for assets and pages
+Bundle-Copyright: Hope Consultants International
+Bundle-Vendor: Hope Consultants International
+Liferay-Require-SchemaVersion: 2.0.0
+Liferay-Service: true
+-metatype: *

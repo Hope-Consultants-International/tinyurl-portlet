@@ -1,0 +1,13 @@
+Bundle-Name: TinyURL API
+Bundle-SymbolicName: org.hopeconsultants.tinyurl.api
+Bundle-Version: 2.1.0
+Bundle-Description: Provides tiny URLs for assets and pages
+Bundle-Copyright: Hope Consultants International
+Bundle-Vendor: Hope Consultants International
+Export-Package: \
+	org.hopeconsultants.tinyurl.exception,\
+	org.hopeconsultants.tinyurl.model,\
+	org.hopeconsultants.tinyurl.service,\
+	org.hopeconsultants.tinyurl.service.persistence,\
+	org.hopeconsultants.tinyurl.tools
+-includeresource: META-INF/service.xml=../tinyurl-service/service.xml
