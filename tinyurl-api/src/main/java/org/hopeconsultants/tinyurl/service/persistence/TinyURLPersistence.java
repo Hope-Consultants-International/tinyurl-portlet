@@ -98,8 +98,7 @@ public interface TinyURLPersistence extends BasePersistence<TinyURL> {
 	* @return the matching tiny url
 	* @throws NoSuchTinyURLException if a matching tiny url could not be found
 	*/
-	public TinyURL findBycode(java.lang.String code)
-		throws NoSuchTinyURLException;
+	public TinyURL findBycode(String code) throws NoSuchTinyURLException;
 
 	/**
 	* Returns the tiny url where code = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
@@ -107,7 +106,7 @@ public interface TinyURLPersistence extends BasePersistence<TinyURL> {
 	* @param code the code
 	* @return the matching tiny url, or <code>null</code> if a matching tiny url could not be found
 	*/
-	public TinyURL fetchBycode(java.lang.String code);
+	public TinyURL fetchBycode(String code);
 
 	/**
 	* Returns the tiny url where code = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
@@ -116,7 +115,7 @@ public interface TinyURLPersistence extends BasePersistence<TinyURL> {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the matching tiny url, or <code>null</code> if a matching tiny url could not be found
 	*/
-	public TinyURL fetchBycode(java.lang.String code, boolean retrieveFromCache);
+	public TinyURL fetchBycode(String code, boolean retrieveFromCache);
 
 	/**
 	* Removes the tiny url where code = &#63; from the database.
@@ -124,8 +123,7 @@ public interface TinyURLPersistence extends BasePersistence<TinyURL> {
 	* @param code the code
 	* @return the tiny url that was removed
 	*/
-	public TinyURL removeBycode(java.lang.String code)
-		throws NoSuchTinyURLException;
+	public TinyURL removeBycode(String code) throws NoSuchTinyURLException;
 
 	/**
 	* Returns the number of tiny urls where code = &#63;.
@@ -133,7 +131,7 @@ public interface TinyURLPersistence extends BasePersistence<TinyURL> {
 	* @param code the code
 	* @return the number of matching tiny urls
 	*/
-	public int countBycode(java.lang.String code);
+	public int countBycode(String code);
 
 	/**
 	* Caches the tiny url in the entity cache if it is enabled.
@@ -255,5 +253,5 @@ public interface TinyURLPersistence extends BasePersistence<TinyURL> {
 	public int countAll();
 
 	@Override
-	public java.util.Set<java.lang.String> getBadColumnNames();
+	public java.util.Set<String> getBadColumnNames();
 }

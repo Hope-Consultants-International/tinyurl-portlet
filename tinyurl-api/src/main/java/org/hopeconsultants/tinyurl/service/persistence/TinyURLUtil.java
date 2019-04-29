@@ -14,19 +14,20 @@
 
 package org.hopeconsultants.tinyurl.service.persistence;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
+import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import java.util.List;
-
-import org.hopeconsultants.tinyurl.exception.NoSuchTinyURLException;
 import org.hopeconsultants.tinyurl.model.TinyURL;
+
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+
 import org.osgi.util.tracker.ServiceTracker;
 
-import aQute.bnd.annotation.ProviderType;
+import java.util.List;
 
 /**
  * The persistence utility for the tiny url service. This utility wraps {@link org.hopeconsultants.tinyurl.service.persistence.impl.TinyURLPersistenceImpl} and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
@@ -177,7 +178,7 @@ public class TinyURLUtil {
 	* @return the matching tiny url
 	* @throws NoSuchTinyURLException if a matching tiny url could not be found
 	*/
-	public static TinyURL findBycode(java.lang.String code)
+	public static TinyURL findBycode(String code)
 		throws org.hopeconsultants.tinyurl.exception.NoSuchTinyURLException {
 		return getPersistence().findBycode(code);
 	}
@@ -188,7 +189,7 @@ public class TinyURLUtil {
 	* @param code the code
 	* @return the matching tiny url, or <code>null</code> if a matching tiny url could not be found
 	*/
-	public static TinyURL fetchBycode(java.lang.String code) {
+	public static TinyURL fetchBycode(String code) {
 		return getPersistence().fetchBycode(code);
 	}
 
@@ -199,8 +200,7 @@ public class TinyURLUtil {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the matching tiny url, or <code>null</code> if a matching tiny url could not be found
 	*/
-	public static TinyURL fetchBycode(java.lang.String code,
-		boolean retrieveFromCache) {
+	public static TinyURL fetchBycode(String code, boolean retrieveFromCache) {
 		return getPersistence().fetchBycode(code, retrieveFromCache);
 	}
 
@@ -210,7 +210,7 @@ public class TinyURLUtil {
 	* @param code the code
 	* @return the tiny url that was removed
 	*/
-	public static TinyURL removeBycode(java.lang.String code)
+	public static TinyURL removeBycode(String code)
 		throws org.hopeconsultants.tinyurl.exception.NoSuchTinyURLException {
 		return getPersistence().removeBycode(code);
 	}
@@ -221,7 +221,7 @@ public class TinyURLUtil {
 	* @param code the code
 	* @return the number of matching tiny urls
 	*/
-	public static int countBycode(java.lang.String code) {
+	public static int countBycode(String code) {
 		return getPersistence().countBycode(code);
 	}
 
@@ -372,7 +372,7 @@ public class TinyURLUtil {
 		return getPersistence().countAll();
 	}
 
-	public static java.util.Set<java.lang.String> getBadColumnNames() {
+	public static java.util.Set<String> getBadColumnNames() {
 		return getPersistence().getBadColumnNames();
 	}
 
@@ -380,7 +380,16 @@ public class TinyURLUtil {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<TinyURLPersistence, TinyURLPersistence> _serviceTracker =
-		ServiceTrackerFactory.open(TinyURLPersistence.class);
+	private static ServiceTracker<TinyURLPersistence, TinyURLPersistence> _serviceTracker;
 
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(TinyURLPersistence.class);
+
+		ServiceTracker<TinyURLPersistence, TinyURLPersistence> serviceTracker = new ServiceTracker<TinyURLPersistence, TinyURLPersistence>(bundle.getBundleContext(),
+				TinyURLPersistence.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
 }

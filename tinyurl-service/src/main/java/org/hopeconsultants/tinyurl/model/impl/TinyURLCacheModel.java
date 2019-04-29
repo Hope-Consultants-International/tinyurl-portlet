@@ -14,20 +14,20 @@
 
 package org.hopeconsultants.tinyurl.model.impl;
 
-import com.liferay.petra.string.StringPool;
+import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+
+import org.hopeconsultants.tinyurl.model.TinyURL;
 
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+
 import java.util.Date;
-
-import org.hopeconsultants.tinyurl.model.TinyURL;
-
-import aQute.bnd.annotation.ProviderType;
 
 /**
  * The cache model class for representing TinyURL in entity cache.
@@ -103,7 +103,7 @@ public class TinyURLCacheModel implements CacheModel<TinyURL>, Externalizable {
 		tinyURLImpl.setUserId(userId);
 
 		if (userName == null) {
-			tinyURLImpl.setUserName(StringPool.BLANK);
+			tinyURLImpl.setUserName("");
 		}
 		else {
 			tinyURLImpl.setUserName(userName);
@@ -127,7 +127,7 @@ public class TinyURLCacheModel implements CacheModel<TinyURL>, Externalizable {
 		tinyURLImpl.setClassPK(classPK);
 
 		if (code == null) {
-			tinyURLImpl.setCode(StringPool.BLANK);
+			tinyURLImpl.setCode("");
 		}
 		else {
 			tinyURLImpl.setCode(code);
@@ -173,7 +173,7 @@ public class TinyURLCacheModel implements CacheModel<TinyURL>, Externalizable {
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -187,7 +187,7 @@ public class TinyURLCacheModel implements CacheModel<TinyURL>, Externalizable {
 		objectOutput.writeLong(classPK);
 
 		if (code == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(code);

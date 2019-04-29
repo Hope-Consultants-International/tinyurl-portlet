@@ -43,7 +43,7 @@ public class TinyURLSoap implements Serializable {
 		soapModel.setClassNameId(model.getClassNameId());
 		soapModel.setClassPK(model.getClassPK());
 		soapModel.setCode(model.getCode());
-		soapModel.setVisible(model.getVisible());
+		soapModel.setVisible(model.isVisible());
 
 		return soapModel;
 	}

@@ -67,7 +67,7 @@ public class TinyURLWrapper implements TinyURL, ModelWrapper<TinyURL> {
 		attributes.put("classNameId", getClassNameId());
 		attributes.put("classPK", getClassPK());
 		attributes.put("code", getCode());
-		attributes.put("visible", getVisible());
+		attributes.put("visible", isVisible());
 
 		return attributes;
 	}
@@ -142,13 +142,153 @@ public class TinyURLWrapper implements TinyURL, ModelWrapper<TinyURL> {
 	}
 
 	@Override
-	public TinyURL toEscapedModel() {
-		return new TinyURLWrapper(_tinyURL.toEscapedModel());
+	public Object clone() {
+		return new TinyURLWrapper((TinyURL)_tinyURL.clone());
 	}
 
 	@Override
-	public TinyURL toUnescapedModel() {
-		return new TinyURLWrapper(_tinyURL.toUnescapedModel());
+	public int compareTo(TinyURL tinyURL) {
+		return _tinyURL.compareTo(tinyURL);
+	}
+
+	/**
+	* Returns the fully qualified class name of this tiny url.
+	*
+	* @return the fully qualified class name of this tiny url
+	*/
+	@Override
+	public String getClassName() {
+		return _tinyURL.getClassName();
+	}
+
+	/**
+	* Returns the class name ID of this tiny url.
+	*
+	* @return the class name ID of this tiny url
+	*/
+	@Override
+	public long getClassNameId() {
+		return _tinyURL.getClassNameId();
+	}
+
+	/**
+	* Returns the class pk of this tiny url.
+	*
+	* @return the class pk of this tiny url
+	*/
+	@Override
+	public long getClassPK() {
+		return _tinyURL.getClassPK();
+	}
+
+	/**
+	* Returns the code of this tiny url.
+	*
+	* @return the code of this tiny url
+	*/
+	@Override
+	public String getCode() {
+		return _tinyURL.getCode();
+	}
+
+	/**
+	* Returns the company ID of this tiny url.
+	*
+	* @return the company ID of this tiny url
+	*/
+	@Override
+	public long getCompanyId() {
+		return _tinyURL.getCompanyId();
+	}
+
+	/**
+	* Returns the create date of this tiny url.
+	*
+	* @return the create date of this tiny url
+	*/
+	@Override
+	public Date getCreateDate() {
+		return _tinyURL.getCreateDate();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _tinyURL.getExpandoBridge();
+	}
+
+	/**
+	* Returns the group ID of this tiny url.
+	*
+	* @return the group ID of this tiny url
+	*/
+	@Override
+	public long getGroupId() {
+		return _tinyURL.getGroupId();
+	}
+
+	/**
+	* Returns the modified date of this tiny url.
+	*
+	* @return the modified date of this tiny url
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _tinyURL.getModifiedDate();
+	}
+
+	/**
+	* Returns the primary key of this tiny url.
+	*
+	* @return the primary key of this tiny url
+	*/
+	@Override
+	public long getPrimaryKey() {
+		return _tinyURL.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _tinyURL.getPrimaryKeyObj();
+	}
+
+	/**
+	* Returns the tiny url ID of this tiny url.
+	*
+	* @return the tiny url ID of this tiny url
+	*/
+	@Override
+	public long getTinyURLId() {
+		return _tinyURL.getTinyURLId();
+	}
+
+	/**
+	* Returns the user ID of this tiny url.
+	*
+	* @return the user ID of this tiny url
+	*/
+	@Override
+	public long getUserId() {
+		return _tinyURL.getUserId();
+	}
+
+	/**
+	* Returns the user name of this tiny url.
+	*
+	* @return the user name of this tiny url
+	*/
+	@Override
+	public String getUserName() {
+		return _tinyURL.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this tiny url.
+	*
+	* @return the user uuid of this tiny url
+	*/
+	@Override
+	public String getUserUuid() {
+		return _tinyURL.getUserUuid();
 	}
 
 	/**
@@ -159,6 +299,11 @@ public class TinyURLWrapper implements TinyURL, ModelWrapper<TinyURL> {
 	@Override
 	public boolean getVisible() {
 		return _tinyURL.getVisible();
+	}
+
+	@Override
+	public int hashCode() {
+		return _tinyURL.hashCode();
 	}
 
 	@Override
@@ -187,176 +332,6 @@ public class TinyURLWrapper implements TinyURL, ModelWrapper<TinyURL> {
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _tinyURL.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<TinyURL> toCacheModel() {
-		return _tinyURL.toCacheModel();
-	}
-
-	@Override
-	public int compareTo(TinyURL tinyURL) {
-		return _tinyURL.compareTo(tinyURL);
-	}
-
-	@Override
-	public int hashCode() {
-		return _tinyURL.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _tinyURL.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new TinyURLWrapper((TinyURL)_tinyURL.clone());
-	}
-
-	/**
-	* Returns the fully qualified class name of this tiny url.
-	*
-	* @return the fully qualified class name of this tiny url
-	*/
-	@Override
-	public java.lang.String getClassName() {
-		return _tinyURL.getClassName();
-	}
-
-	/**
-	* Returns the code of this tiny url.
-	*
-	* @return the code of this tiny url
-	*/
-	@Override
-	public java.lang.String getCode() {
-		return _tinyURL.getCode();
-	}
-
-	/**
-	* Returns the user name of this tiny url.
-	*
-	* @return the user name of this tiny url
-	*/
-	@Override
-	public java.lang.String getUserName() {
-		return _tinyURL.getUserName();
-	}
-
-	/**
-	* Returns the user uuid of this tiny url.
-	*
-	* @return the user uuid of this tiny url
-	*/
-	@Override
-	public java.lang.String getUserUuid() {
-		return _tinyURL.getUserUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _tinyURL.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _tinyURL.toXmlString();
-	}
-
-	/**
-	* Returns the create date of this tiny url.
-	*
-	* @return the create date of this tiny url
-	*/
-	@Override
-	public Date getCreateDate() {
-		return _tinyURL.getCreateDate();
-	}
-
-	/**
-	* Returns the modified date of this tiny url.
-	*
-	* @return the modified date of this tiny url
-	*/
-	@Override
-	public Date getModifiedDate() {
-		return _tinyURL.getModifiedDate();
-	}
-
-	/**
-	* Returns the class name ID of this tiny url.
-	*
-	* @return the class name ID of this tiny url
-	*/
-	@Override
-	public long getClassNameId() {
-		return _tinyURL.getClassNameId();
-	}
-
-	/**
-	* Returns the class pk of this tiny url.
-	*
-	* @return the class pk of this tiny url
-	*/
-	@Override
-	public long getClassPK() {
-		return _tinyURL.getClassPK();
-	}
-
-	/**
-	* Returns the company ID of this tiny url.
-	*
-	* @return the company ID of this tiny url
-	*/
-	@Override
-	public long getCompanyId() {
-		return _tinyURL.getCompanyId();
-	}
-
-	/**
-	* Returns the group ID of this tiny url.
-	*
-	* @return the group ID of this tiny url
-	*/
-	@Override
-	public long getGroupId() {
-		return _tinyURL.getGroupId();
-	}
-
-	/**
-	* Returns the primary key of this tiny url.
-	*
-	* @return the primary key of this tiny url
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _tinyURL.getPrimaryKey();
-	}
-
-	/**
-	* Returns the tiny url ID of this tiny url.
-	*
-	* @return the tiny url ID of this tiny url
-	*/
-	@Override
-	public long getTinyURLId() {
-		return _tinyURL.getTinyURLId();
-	}
-
-	/**
-	* Returns the user ID of this tiny url.
-	*
-	* @return the user ID of this tiny url
-	*/
-	@Override
-	public long getUserId() {
-		return _tinyURL.getUserId();
-	}
-
-	@Override
 	public void persist() {
 		_tinyURL.persist();
 	}
@@ -367,7 +342,7 @@ public class TinyURLWrapper implements TinyURL, ModelWrapper<TinyURL> {
 	}
 
 	@Override
-	public void setClassName(java.lang.String className) {
+	public void setClassName(String className) {
 		_tinyURL.setClassName(className);
 	}
 
@@ -397,7 +372,7 @@ public class TinyURLWrapper implements TinyURL, ModelWrapper<TinyURL> {
 	* @param code the code of this tiny url
 	*/
 	@Override
-	public void setCode(java.lang.String code) {
+	public void setCode(String code) {
 		_tinyURL.setCode(code);
 	}
 
@@ -422,14 +397,14 @@ public class TinyURLWrapper implements TinyURL, ModelWrapper<TinyURL> {
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_tinyURL.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(
 		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
 		_tinyURL.setExpandoBridgeAttributes(baseModel);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
+		_tinyURL.setExpandoBridgeAttributes(expandoBridge);
 	}
 
 	@Override
@@ -503,7 +478,7 @@ public class TinyURLWrapper implements TinyURL, ModelWrapper<TinyURL> {
 	* @param userName the user name of this tiny url
 	*/
 	@Override
-	public void setUserName(java.lang.String userName) {
+	public void setUserName(String userName) {
 		_tinyURL.setUserName(userName);
 	}
 
@@ -513,7 +488,7 @@ public class TinyURLWrapper implements TinyURL, ModelWrapper<TinyURL> {
 	* @param userUuid the user uuid of this tiny url
 	*/
 	@Override
-	public void setUserUuid(java.lang.String userUuid) {
+	public void setUserUuid(String userUuid) {
 		_tinyURL.setUserUuid(userUuid);
 	}
 
@@ -525,6 +500,31 @@ public class TinyURLWrapper implements TinyURL, ModelWrapper<TinyURL> {
 	@Override
 	public void setVisible(boolean visible) {
 		_tinyURL.setVisible(visible);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel<TinyURL> toCacheModel() {
+		return _tinyURL.toCacheModel();
+	}
+
+	@Override
+	public TinyURL toEscapedModel() {
+		return new TinyURLWrapper(_tinyURL.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _tinyURL.toString();
+	}
+
+	@Override
+	public TinyURL toUnescapedModel() {
+		return new TinyURLWrapper(_tinyURL.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _tinyURL.toXmlString();
 	}
 
 	@Override

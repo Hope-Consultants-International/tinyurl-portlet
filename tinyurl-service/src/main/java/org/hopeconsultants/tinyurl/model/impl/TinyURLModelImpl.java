@@ -14,12 +14,15 @@
 
 package org.hopeconsultants.tinyurl.model.impl;
 
+import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
-import com.liferay.petra.string.StringPool;
+
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -30,16 +33,16 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 
-import java.io.Serializable;
-import java.sql.Types;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.hopeconsultants.tinyurl.model.TinyURL;
 import org.hopeconsultants.tinyurl.model.TinyURLModel;
 
-import aQute.bnd.annotation.ProviderType;
+import java.io.Serializable;
+
+import java.sql.Types;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The base model implementation for the TinyURL service. Represents a row in the &quot;TinyUrl_TinyURL&quot; database table, with each column mapped to a property of this class.
@@ -76,7 +79,7 @@ public class TinyURLModelImpl extends BaseModelImpl<TinyURL>
 			{ "code_", Types.VARCHAR },
 			{ "visible", Types.BOOLEAN }
 		};
-	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<>();
+	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
 	static {
 		TABLE_COLUMNS_MAP.put("tinyURLId", Types.BIGINT);
@@ -150,7 +153,7 @@ public class TinyURLModelImpl extends BaseModelImpl<TinyURL>
 
 	@Override
 	public Map<String, Object> getModelAttributes() {
-		Map<String, Object> attributes = new HashMap<>();
+		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("tinyURLId", getTinyURLId());
 		attributes.put("groupId", getGroupId());
@@ -162,7 +165,7 @@ public class TinyURLModelImpl extends BaseModelImpl<TinyURL>
 		attributes.put("classNameId", getClassNameId());
 		attributes.put("classPK", getClassPK());
 		attributes.put("code", getCode());
-		attributes.put("visible", getVisible());
+		attributes.put("visible", isVisible());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -289,7 +292,7 @@ public class TinyURLModelImpl extends BaseModelImpl<TinyURL>
 			return user.getUuid();
 		}
 		catch (PortalException pe) {
-			return StringPool.BLANK;
+			return "";
 		}
 	}
 
@@ -300,7 +303,7 @@ public class TinyURLModelImpl extends BaseModelImpl<TinyURL>
 	@Override
 	public String getUserName() {
 		if (_userName == null) {
-			return StringPool.BLANK;
+			return "";
 		}
 		else {
 			return _userName;
@@ -341,7 +344,7 @@ public class TinyURLModelImpl extends BaseModelImpl<TinyURL>
 	@Override
 	public String getClassName() {
 		if (getClassNameId() <= 0) {
-			return StringPool.BLANK;
+			return "";
 		}
 
 		return PortalUtil.getClassName(getClassNameId());
@@ -405,7 +408,7 @@ public class TinyURLModelImpl extends BaseModelImpl<TinyURL>
 	@Override
 	public String getCode() {
 		if (_code == null) {
-			return StringPool.BLANK;
+			return "";
 		}
 		else {
 			return _code;
@@ -483,7 +486,7 @@ public class TinyURLModelImpl extends BaseModelImpl<TinyURL>
 		tinyURLImpl.setClassNameId(getClassNameId());
 		tinyURLImpl.setClassPK(getClassPK());
 		tinyURLImpl.setCode(getCode());
-		tinyURLImpl.setVisible(getVisible());
+		tinyURLImpl.setVisible(isVisible());
 
 		tinyURLImpl.resetOriginalValues();
 
@@ -617,7 +620,7 @@ public class TinyURLModelImpl extends BaseModelImpl<TinyURL>
 			tinyURLCacheModel.code = null;
 		}
 
-		tinyURLCacheModel.visible = getVisible();
+		tinyURLCacheModel.visible = isVisible();
 
 		return tinyURLCacheModel;
 	}
@@ -647,7 +650,7 @@ public class TinyURLModelImpl extends BaseModelImpl<TinyURL>
 		sb.append(", code=");
 		sb.append(getCode());
 		sb.append(", visible=");
-		sb.append(getVisible());
+		sb.append(isVisible());
 		sb.append("}");
 
 		return sb.toString();
@@ -703,7 +706,7 @@ public class TinyURLModelImpl extends BaseModelImpl<TinyURL>
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>visible</column-name><column-value><![CDATA[");
-		sb.append(getVisible());
+		sb.append(isVisible());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -713,7 +716,7 @@ public class TinyURLModelImpl extends BaseModelImpl<TinyURL>
 
 	private static final ClassLoader _classLoader = TinyURL.class.getClassLoader();
 	private static final Class<?>[] _escapedModelInterfaces = new Class[] {
-			TinyURL.class
+			TinyURL.class, ModelWrapper.class
 		};
 	private long _tinyURLId;
 	private long _groupId;

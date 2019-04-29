@@ -33,18 +33,44 @@ public class TinyURLLocalServiceWrapper implements TinyURLLocalService,
 	}
 
 	@Override
-	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
-		return _tinyURLLocalService.getActionableDynamicQuery();
+	public org.hopeconsultants.tinyurl.model.TinyURL addTinyURL(long groupId,
+		long companyId, long userId, String userName, long classNameId,
+		long classPK, boolean visible)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			com.liferay.portal.kernel.exception.PortalException {
+		return _tinyURLLocalService.addTinyURL(groupId, companyId, userId,
+			userName, classNameId, classPK, visible);
+	}
+
+	/**
+	* Adds the tiny url to the database. Also notifies the appropriate model listeners.
+	*
+	* @param tinyURL the tiny url
+	* @return the tiny url that was added
+	*/
+	@Override
+	public org.hopeconsultants.tinyurl.model.TinyURL addTinyURL(
+		org.hopeconsultants.tinyurl.model.TinyURL tinyURL) {
+		return _tinyURLLocalService.addTinyURL(tinyURL);
+	}
+
+	/**
+	* Creates a new tiny url with the primary key. Does not add the tiny url to the database.
+	*
+	* @param tinyURLId the primary key for the new tiny url
+	* @return the new tiny url
+	*/
+	@Override
+	public org.hopeconsultants.tinyurl.model.TinyURL createTinyURL(
+		long tinyURLId) {
+		return _tinyURLLocalService.createTinyURL(tinyURLId);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
-		return _tinyURLLocalService.dynamicQuery();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		return _tinyURLLocalService.getIndexableActionableDynamicQuery();
+	public void deleteByC_P(long classNameId, long classPK)
+		throws org.hopeconsultants.tinyurl.exception.NoSuchTinyURLException,
+			com.liferay.portal.kernel.exception.SystemException {
+		_tinyURLLocalService.deleteByC_P(classNameId, classPK);
 	}
 
 	/**
@@ -57,31 +83,35 @@ public class TinyURLLocalServiceWrapper implements TinyURLLocalService,
 		return _tinyURLLocalService.deletePersistedModel(persistedModel);
 	}
 
+	/**
+	* Deletes the tiny url with the primary key from the database. Also notifies the appropriate model listeners.
+	*
+	* @param tinyURLId the primary key of the tiny url
+	* @return the tiny url that was removed
+	* @throws PortalException if a tiny url with the primary key could not be found
+	*/
 	@Override
-	public com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
+	public org.hopeconsultants.tinyurl.model.TinyURL deleteTinyURL(
+		long tinyURLId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _tinyURLLocalService.getPersistedModel(primaryKeyObj);
+		return _tinyURLLocalService.deleteTinyURL(tinyURLId);
 	}
 
 	/**
-	* Returns the number of tiny urls.
+	* Deletes the tiny url from the database. Also notifies the appropriate model listeners.
 	*
-	* @return the number of tiny urls
+	* @param tinyURL the tiny url
+	* @return the tiny url that was removed
 	*/
 	@Override
-	public int getTinyURLsCount() {
-		return _tinyURLLocalService.getTinyURLsCount();
+	public org.hopeconsultants.tinyurl.model.TinyURL deleteTinyURL(
+		org.hopeconsultants.tinyurl.model.TinyURL tinyURL) {
+		return _tinyURLLocalService.deleteTinyURL(tinyURL);
 	}
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
-		return _tinyURLLocalService.getOSGiServiceIdentifier();
+	public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
+		return _tinyURLLocalService.dynamicQuery();
 	}
 
 	/**
@@ -138,23 +168,6 @@ public class TinyURLLocalServiceWrapper implements TinyURLLocalService,
 	}
 
 	/**
-	* Returns a range of all the tiny urls.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.hopeconsultants.tinyurl.model.impl.TinyURLModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param start the lower bound of the range of tiny urls
-	* @param end the upper bound of the range of tiny urls (not inclusive)
-	* @return the range of tiny urls
-	*/
-	@Override
-	public java.util.List<org.hopeconsultants.tinyurl.model.TinyURL> getTinyURLs(
-		int start, int end) {
-		return _tinyURLLocalService.getTinyURLs(start, end);
-	}
-
-	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
@@ -181,66 +194,6 @@ public class TinyURLLocalServiceWrapper implements TinyURLLocalService,
 	}
 
 	@Override
-	public org.hopeconsultants.tinyurl.model.TinyURL addTinyURL(long groupId,
-		long companyId, long userId, java.lang.String userName,
-		long classNameId, long classPK, boolean visible)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return _tinyURLLocalService.addTinyURL(groupId, companyId, userId,
-			userName, classNameId, classPK, visible);
-	}
-
-	/**
-	* Adds the tiny url to the database. Also notifies the appropriate model listeners.
-	*
-	* @param tinyURL the tiny url
-	* @return the tiny url that was added
-	*/
-	@Override
-	public org.hopeconsultants.tinyurl.model.TinyURL addTinyURL(
-		org.hopeconsultants.tinyurl.model.TinyURL tinyURL) {
-		return _tinyURLLocalService.addTinyURL(tinyURL);
-	}
-
-	/**
-	* Creates a new tiny url with the primary key. Does not add the tiny url to the database.
-	*
-	* @param tinyURLId the primary key for the new tiny url
-	* @return the new tiny url
-	*/
-	@Override
-	public org.hopeconsultants.tinyurl.model.TinyURL createTinyURL(
-		long tinyURLId) {
-		return _tinyURLLocalService.createTinyURL(tinyURLId);
-	}
-
-	/**
-	* Deletes the tiny url with the primary key from the database. Also notifies the appropriate model listeners.
-	*
-	* @param tinyURLId the primary key of the tiny url
-	* @return the tiny url that was removed
-	* @throws PortalException if a tiny url with the primary key could not be found
-	*/
-	@Override
-	public org.hopeconsultants.tinyurl.model.TinyURL deleteTinyURL(
-		long tinyURLId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _tinyURLLocalService.deleteTinyURL(tinyURLId);
-	}
-
-	/**
-	* Deletes the tiny url from the database. Also notifies the appropriate model listeners.
-	*
-	* @param tinyURL the tiny url
-	* @return the tiny url that was removed
-	*/
-	@Override
-	public org.hopeconsultants.tinyurl.model.TinyURL deleteTinyURL(
-		org.hopeconsultants.tinyurl.model.TinyURL tinyURL) {
-		return _tinyURLLocalService.deleteTinyURL(tinyURL);
-	}
-
-	@Override
 	public org.hopeconsultants.tinyurl.model.TinyURL fetchByC_P(
 		long classNameId, long classPK)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -248,8 +201,7 @@ public class TinyURLLocalServiceWrapper implements TinyURLLocalService,
 	}
 
 	@Override
-	public org.hopeconsultants.tinyurl.model.TinyURL fetchBycode(
-		java.lang.String code)
+	public org.hopeconsultants.tinyurl.model.TinyURL fetchBycode(String code)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _tinyURLLocalService.fetchBycode(code);
 	}
@@ -258,6 +210,33 @@ public class TinyURLLocalServiceWrapper implements TinyURLLocalService,
 	public org.hopeconsultants.tinyurl.model.TinyURL fetchTinyURL(
 		long tinyURLId) {
 		return _tinyURLLocalService.fetchTinyURL(tinyURLId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
+		return _tinyURLLocalService.getActionableDynamicQuery();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
+		return _tinyURLLocalService.getIndexableActionableDynamicQuery();
+	}
+
+	/**
+	* Returns the OSGi service identifier.
+	*
+	* @return the OSGi service identifier
+	*/
+	@Override
+	public String getOSGiServiceIdentifier() {
+		return _tinyURLLocalService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
+		java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _tinyURLLocalService.getPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -271,6 +250,33 @@ public class TinyURLLocalServiceWrapper implements TinyURLLocalService,
 	public org.hopeconsultants.tinyurl.model.TinyURL getTinyURL(long tinyURLId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _tinyURLLocalService.getTinyURL(tinyURLId);
+	}
+
+	/**
+	* Returns a range of all the tiny urls.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link org.hopeconsultants.tinyurl.model.impl.TinyURLModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start the lower bound of the range of tiny urls
+	* @param end the upper bound of the range of tiny urls (not inclusive)
+	* @return the range of tiny urls
+	*/
+	@Override
+	public java.util.List<org.hopeconsultants.tinyurl.model.TinyURL> getTinyURLs(
+		int start, int end) {
+		return _tinyURLLocalService.getTinyURLs(start, end);
+	}
+
+	/**
+	* Returns the number of tiny urls.
+	*
+	* @return the number of tiny urls
+	*/
+	@Override
+	public int getTinyURLsCount() {
+		return _tinyURLLocalService.getTinyURLsCount();
 	}
 
 	/**
@@ -290,13 +296,6 @@ public class TinyURLLocalServiceWrapper implements TinyURLLocalService,
 		long classNameId, long classPK, boolean visible)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _tinyURLLocalService.updateVisible(classNameId, classPK, visible);
-	}
-
-	@Override
-	public void deleteByC_P(long classNameId, long classPK)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			org.hopeconsultants.tinyurl.exception.NoSuchTinyURLException {
-		_tinyURLLocalService.deleteByC_P(classNameId, classPK);
 	}
 
 	@Override
