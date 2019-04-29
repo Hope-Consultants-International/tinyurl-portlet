@@ -6,7 +6,6 @@ dependencies {
     compileOnly group: "com.liferay", name: "com.liferay.asset.publisher.api"
     compileOnly group: "com.liferay", name: "com.liferay.configuration.admin.api"
     compileOnly group: "com.liferay", name: "com.liferay.journal.api"
-    compileOnly group: "com.liferay", name: "com.liferay.osgi.util"
     compileOnly group: "com.liferay", name: "com.liferay.petra.reflect"
     compileOnly group: "com.liferay", name: "com.liferay.petra.string"
     compileOnly group: "com.liferay", name: "com.liferay.portal.configuration.metatype.api"
